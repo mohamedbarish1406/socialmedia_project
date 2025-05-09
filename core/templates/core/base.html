@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Media </title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }} |             
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form> | <a href="{% url 'new_post' %}">New Post</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign Up</a> 
+</p>
+    {% endif %}
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

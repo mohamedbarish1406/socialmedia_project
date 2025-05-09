@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Feed</h2>
+{% for post in posts %}
+    <div style="border: 1px solid gray; padding: 10px; margin-bottom: 10px;">
+        <p><strong>{{ post.user }}</strong></p>
+        <img src="{{ post.image.url }}" width="300"><br>
+        <p>{{ post.caption }}</p>
+        <form method="post" action="{% url 'like_post' post.id %}">
+            {% csrf_token %}
+            <button type="submit">
+                Like ({{ post.likes.count }})
+            </button>
+        </form>
+        <form method="post" action="{% url 'add_comment' post.id %}">
+            {% csrf_token %}
+            <input type="text" name="text" placeholder="Add a comment...">
+            <button type="submit">Comment</button>
+        </form>
+        {% for comment in post.comments.all %}
+            <p><strong>{{ comment.user }}</strong>: {{ comment.text }}</p>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}
